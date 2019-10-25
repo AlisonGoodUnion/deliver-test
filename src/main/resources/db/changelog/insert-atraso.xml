@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="admin" id="3">
+        <insert dbms="h2, oracle"
+                schemaName="public"
+                tableName="atraso">
+            <column name="dias_atraso" type="varchar(255)" value="até 3 dias"/>
+            <column name="multa" type="varchar(255)" value="2%"/>
+            <column name="juros_dia" type="number(15,2)" value="0.1"/>
+        </insert>
+        <insert dbms="h2, oracle"
+                schemaName="public"
+                tableName="atraso">
+            <column name="dias_atraso" type="varchar(255)" value="superior a 3 dias"/>
+            <column name="multa" type="varchar(255)" value="3%"/>
+            <column name="juros_dia" type="number(15,2)" value="0.2"/>
+        </insert>
+        <insert dbms="h2, oracle"
+                schemaName="public"
+                tableName="atraso">
+            <column name="dias_atraso" type="varchar(255)" value="superior a 5 dias"/>
+            <column name="multa" type="varchar(255)" value="5%"/>
+            <column name="juros_dia" type="number(15,2)" value="0.3"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

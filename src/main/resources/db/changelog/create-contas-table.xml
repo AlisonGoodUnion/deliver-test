@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="admin" id="1">
+        <createTable tableName="contas">
+            <column autoIncrement="true" name="id" type="number">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_original" type="number(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_corrigido" type="number(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vencimento" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pagamento" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dias_atraso" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="atraso" type="number">
+                <constraints nullable="true" foreignKeyName="fk_atraso" references="atraso(id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="contas"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
