@@ -12,18 +12,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static java.util.Objects.isNull;
+
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContaDTO implements Serializable {
     private static final long serialVersionUID = 8106354023976241635L;
+    private static final int ZERO_DEFAULT = 0;
 
-    @JsonIgnore
+//    @JsonIgnore
     private Long id;
     private String nome;
     private BigDecimal valorOriginal;
     private BigDecimal valorCorrigido;
-    @JsonIgnore
+//    @JsonIgnore
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate vencimento;
     private Integer diasAtraso;
@@ -31,17 +34,17 @@ public class ContaDTO implements Serializable {
     private LocalDate pagamento;
     private AtrasoDTO atraso;
 
-
     public Conta toEndity() {
 
         return Conta.builder()
                 .id(id)
                 .nome(nome)
                 .valorOriginal(valorOriginal)
-                .valorCorrigido(valorCorrigido)
+                .valorCorrigido(isNull(valorCorrigido) ? BigDecimal.ZERO : valorCorrigido)
                 .vencimento(vencimento)
                 .pagamento(pagamento)
-                .diasAtraso(diasAtraso)
+                .diasAtraso(isNull(diasAtraso) ? ZERO_DEFAULT : diasAtraso)
+                .atraso(isNull(atraso) ? null : atraso.toEntity())
                 .build();
     }
 
@@ -54,6 +57,7 @@ public class ContaDTO implements Serializable {
                 .vencimento(conta.getVencimento())
                 .pagamento(conta.getPagamento())
                 .diasAtraso(conta.getDiasAtraso())
+                .atraso(AtrasoDTO.valueOf(conta.getAtraso()))
                 .build();
     }
 }

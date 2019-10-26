@@ -4,7 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="admin" id="1">
-        <createTable tableName="contas">
+        <createTable tableName="conta">
             <column autoIncrement="true" name="id" type="number">
                 <constraints primaryKey="true"/>
             </column>
@@ -31,7 +31,7 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="contas"/>
+            <dropTable tableName="conta"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>

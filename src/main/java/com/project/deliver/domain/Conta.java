@@ -1,21 +1,26 @@
 package com.project.deliver.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
+@AllArgsConstructor
 @Builder
 @Data
+@NoArgsConstructor
 @Entity
-@Table(name = "Conta")
+@Table(name = "CONTA")
 public class Conta {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "NOME")
     private String nome;
