@@ -1,5 +1,6 @@
 package com.project.deliver.controller;
 
+import com.project.deliver.domain.Conta;
 import com.project.deliver.dto.ContaDTO;
 import com.project.deliver.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class ContaController {
 
     @PostMapping
     public ResponseEntity inserir(@RequestBody final ContaDTO conta) {
-        contaService.incluir(conta.toEndity());
-        return ResponseEntity.ok(conta);
+        Conta contaEntity = contaService.incluir(conta.toEndity());
+        ContaDTO contaDTO = ContaDTO.valueOf(contaEntity);
+        return ResponseEntity.ok(contaDTO);
     }
 
     @GetMapping

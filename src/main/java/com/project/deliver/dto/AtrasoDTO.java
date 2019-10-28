@@ -21,7 +21,7 @@ public class AtrasoDTO implements Serializable {
     @Column(name = "DIAS_ATRASO")
     private String diasAtraso;
     @Column(name = "MULTA")
-    private String multa;
+    private BigDecimal multa;
     @Column(name = "JUROS_DIA")
     private BigDecimal juros;
 

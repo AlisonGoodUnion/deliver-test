@@ -8,21 +8,21 @@
                 schemaName="public"
                 tableName="atraso">
             <column name="dias_atraso" type="varchar(255)" value="até 3 dias"/>
-            <column name="multa" type="varchar(255)" value="2%"/>
+            <column name="multa" type="number(15,2)" value="2"/>
             <column name="juros_dia" type="number(15,2)" value="0.1"/>
         </insert>
         <insert dbms="h2, oracle"
                 schemaName="public"
                 tableName="atraso">
             <column name="dias_atraso" type="varchar(255)" value="superior a 3 dias"/>
-            <column name="multa" type="varchar(255)" value="3%"/>
+            <column name="multa" type="number(15,2)" value="3"/>
             <column name="juros_dia" type="number(15,2)" value="0.2"/>
         </insert>
         <insert dbms="h2, oracle"
                 schemaName="public"
                 tableName="atraso">
             <column name="dias_atraso" type="varchar(255)" value="superior a 5 dias"/>
-            <column name="multa" type="varchar(255)" value="5%"/>
+            <column name="multa" type="number(15,2)" value="5"/>
             <column name="juros_dia" type="number(15,2)" value="0.3"/>
         </insert>
     </changeSet>

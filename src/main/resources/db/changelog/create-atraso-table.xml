@@ -11,7 +11,7 @@
             <column name="dias_atraso" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="multa" type="varchar(255)">
+            <column name="multa" type="number(15,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="juros_dia" type="number(15,2)">
