@@ -34,6 +34,8 @@ public class Conta {
     private LocalDate pagamento;
     @Column(name = "DIAS_ATRASO")
     private Integer diasAtraso;
+    @Column(name = "CALCULO_ATRASO")
+    private String calculoAtraso;
 
     @ManyToOne
     @JoinColumn(name = "ATRASO", columnDefinition = "ID")

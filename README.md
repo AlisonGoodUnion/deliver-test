@@ -5,9 +5,9 @@ POST: http://localhost:8080/conta
 ```json
 {
     "nome": "Carro",
-    "valorOriginal": 200.02,
-    "vencimento": "2000-10-31",
-    "pagamento": "2000-10-31"
+    "valorOriginal": 130.00,
+    "vencimento": "2000-11-14",
+    "pagamento": "2000-11-29"
 }
 ```
 ###Buscar Contas

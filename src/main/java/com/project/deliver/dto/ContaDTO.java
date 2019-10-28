@@ -1,6 +1,5 @@
 package com.project.deliver.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -21,17 +20,16 @@ public class ContaDTO implements Serializable {
     private static final long serialVersionUID = 8106354023976241635L;
     private static final int ZERO_DEFAULT = 0;
 
-//    @JsonIgnore
     private Long id;
     private String nome;
     private BigDecimal valorOriginal;
     private BigDecimal valorCorrigido;
-//    @JsonIgnore
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate vencimento;
     private Integer diasAtraso;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate pagamento;
+    private String calculoAtraso;
     private AtrasoDTO atraso;
 
     public Conta toEndity() {
@@ -45,6 +43,7 @@ public class ContaDTO implements Serializable {
                 .pagamento(pagamento)
                 .diasAtraso(isNull(diasAtraso) ? ZERO_DEFAULT : diasAtraso)
                 .atraso(isNull(atraso) ? null : atraso.toEntity())
+                .calculoAtraso(calculoAtraso)
                 .build();
     }
 
@@ -58,6 +57,7 @@ public class ContaDTO implements Serializable {
                 .pagamento(conta.getPagamento())
                 .diasAtraso(conta.getDiasAtraso())
                 .atraso(AtrasoDTO.valueOf(conta.getAtraso()))
+                .calculoAtraso(conta.getCalculoAtraso())
                 .build();
     }
 }

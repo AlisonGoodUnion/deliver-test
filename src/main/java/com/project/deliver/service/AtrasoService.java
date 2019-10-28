@@ -13,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -43,22 +44,27 @@ public class AtrasoService {
     }
 
     public void aplicarMulta(Conta conta) {
-        if (conta.getDiasAtraso() <= 3) {
-            Optional<Atraso> atraso = atrasoRepository.findById(1L);
-            popularAtraso(conta, atraso);
-        }
 
-        if (conta.getDiasAtraso() > 3 && conta.getDiasAtraso() <= 5) {
-            Optional<Atraso> atraso = atrasoRepository.findById(2L);
-            popularAtraso(conta, atraso);
-        }
+        if (nonNull(conta.getDiasAtraso()) && conta.getDiasAtraso() > 0) {
+            if (conta.getDiasAtraso() <= 3) {
+                Optional<Atraso> atraso = atrasoRepository.findById(1L);
+                popularAtraso(conta, atraso);
+            }
 
-        if (conta.getDiasAtraso() > 5) {
-            Optional<Atraso> atraso = atrasoRepository.findById(3L);
-            popularAtraso(conta, atraso);
-        }
+            if (conta.getDiasAtraso() > 3 && conta.getDiasAtraso() <= 5) {
+                Optional<Atraso> atraso = atrasoRepository.findById(2L);
+                popularAtraso(conta, atraso);
+            }
 
-        calcularCorrecao(conta);
+            if (conta.getDiasAtraso() > 5) {
+                Optional<Atraso> atraso = atrasoRepository.findById(3L);
+                popularAtraso(conta, atraso);
+            }
+
+            if (nonNull(conta.getAtraso())) {
+                calcularCorrecao(conta);
+            }
+        }
     }
 
     private void popularAtraso(Conta conta, Optional<Atraso> atraso) {
@@ -66,23 +72,20 @@ public class AtrasoService {
     }
 
     private void calcularCorrecao(Conta conta) {
-
-//        DEVENDO 130 POR 15 DIAS
-//        130 * 5 = 6, 5
-//        130 * 4, 5 = 5, 85
-//        130 + 6, 5 + 5, 85
-
-        BigDecimal valor = conta.getValorOriginal();
+        BigDecimal bd100 = BigDecimal.valueOf(100);
+        BigDecimal valor = conta.getValorOriginal().setScale(2);
         BigDecimal diasAtraso = BigDecimal.valueOf(conta.getDiasAtraso());
-        BigDecimal multa = conta.getAtraso().getMulta().divide(BigDecimal.valueOf(100));
+        BigDecimal multa = conta.getAtraso().getMulta().divide(bd100).setScale(2);
+        BigDecimal juros = conta.getAtraso().getJuros().setScale(2);
+        BigDecimal jurosAtraso = diasAtraso.multiply(juros).setScale(2);
+        BigDecimal multaAtraso = valor.multiply(multa).setScale(2);
+        BigDecimal jurosAplicado = valor.multiply(jurosAtraso).divide(bd100).setScale(2);
 
-        log.info("[MULTA] = " + valor + "$ * " + multa + "MULTA = " + valor.multiply(multa));
-        log.info("[JUROS/DIA] = " + diasAtraso + "DIAS * " + conta.getAtraso().getJuros() + "JUROS = " + diasAtraso.multiply(conta.getAtraso().getJuros()));
+        log.debug("[MULTA] = " + valor + "$ * " + multa + "MULTA = " + multaAtraso);
+        log.debug("[JUROS/DIA] = " + diasAtraso + "DIAS * " + juros + "JUROS = " + jurosAtraso);
 
+        conta.setValorCorrigido(valor.add(multaAtraso).add(jurosAplicado));
 
-        BigDecimal multaAplicada = valor.add(valor.multiply(multa));
-        BigDecimal jurosAplicado = valor.multiply(diasAtraso.multiply(conta.getAtraso().getJuros()));
-//TODO CORRIGIR VALOR CORRIGIDO
-        conta.setValorCorrigido(valor.add(multaAplicada).add(jurosAplicado));
+        conta.setCalculoAtraso("VALOR: " + valor + "MULTA: " + multaAtraso + " + Juros/dia: " + jurosAplicado + " TOTAL = " + conta.getValorCorrigido() + "R$");
     }
 }

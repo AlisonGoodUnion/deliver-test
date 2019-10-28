@@ -29,6 +29,9 @@
             <column name="atraso" type="number">
                 <constraints nullable="true" foreignKeyName="fk_atraso" references="atraso(id)"/>
             </column>
+            <column name="calculo_atraso" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="conta"/>
