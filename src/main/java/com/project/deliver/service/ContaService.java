@@ -32,7 +32,8 @@ public class ContaService {
         atrasoService.verificar(conta);
         atrasoService.aplicarMulta(conta);
         log.info("salvar conta");
-        return contaRepository.save(conta);
+        conta = contaRepository.save(conta);
+        return conta;
     }
 
     public List<Conta> buscar() {
